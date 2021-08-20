@@ -18,6 +18,7 @@ package com.example.android.architecture.blueprints.todoapp.tasks
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.android.architecture.blueprints.todoapp.Event
+import com.example.android.architecture.blueprints.todoapp.MainCoroutineRule
 import com.example.android.architecture.blueprints.todoapp.R
 import com.example.android.architecture.blueprints.todoapp.data.Task
 import com.example.android.architecture.blueprints.todoapp.data.source.FakeTestRepository
@@ -52,7 +53,8 @@ class TasksViewModelTest {
     var instantExecutorRule = InstantTaskExecutorRule()
 
     @ExperimentalCoroutinesApi
-    val testDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
+    @get:Rule
+    var mainCoroutineRule = MainCoroutineRule()
 
     @Before
     fun setupViewModel() {
@@ -64,19 +66,6 @@ class TasksViewModelTest {
         tasksRepository.addTasks(task1, task2, task3)
 
         tasksViewModel = TasksViewModel(tasksRepository)
-    }
-
-    @ExperimentalCoroutinesApi
-    @Before
-    fun setupDispatcher() {
-        Dispatchers.setMain(testDispatcher)
-    }
-
-    @ExperimentalCoroutinesApi
-    @After
-    fun tearDownDispatcher() {
-        Dispatchers.resetMain()
-        testDispatcher.cleanupTestCoroutines()
     }
 
     @Test
