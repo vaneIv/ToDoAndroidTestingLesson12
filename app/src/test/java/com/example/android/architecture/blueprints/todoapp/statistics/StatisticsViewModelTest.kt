@@ -57,7 +57,7 @@ class StatisticsViewModelTest {
         assertThat(statisticsViewModel.dataLoading.getOrAwaitValue(), `is`(false))
     }
 
-    // Test that makes sure that the Error is showing the appropriate things when triggered.
+    // Test that makes sure that the Error is showing the appropriate things when triggered
     @Test
     fun loadStatisticsWhenTasksAreUnavailable_callErrorToDisplay() {
         // Make the repository returns errors
