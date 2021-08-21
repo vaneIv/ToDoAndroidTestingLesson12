@@ -37,6 +37,8 @@ class StatisticsViewModelTest {
         statisticsViewModel = StatisticsViewModel(tasksRepository)
     }
 
+    // Test that makes sure the loading indicator is shown when the statistics are loading,
+    // and then disappears once the statistics are loaded.
     @Test
     fun loadTasks_loading() {
         // Pause dispatcher so you can verify initial values.
@@ -53,5 +55,18 @@ class StatisticsViewModelTest {
 
         // Then progress indicator is hidden.
         assertThat(statisticsViewModel.dataLoading.getOrAwaitValue(), `is`(false))
+    }
+
+    // Test that makes sure that the Error is showing the appropriate things when triggered.
+    @Test
+    fun loadStatisticsWhenTasksAreUnavailable_callErrorToDisplay() {
+        // Make the repository returns errors
+        tasksRepository.setReturnError(true)
+
+        statisticsViewModel.refresh()
+
+        // Then an error message is shown
+        assertThat(statisticsViewModel.empty.getOrAwaitValue(), `is`(true))
+        assertThat(statisticsViewModel.error.getOrAwaitValue(), `is`(true))
     }
 }
